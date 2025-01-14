@@ -1,0 +1,104 @@
+<p-table [value]="doctors()" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template #header>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>CPF</th>
+      <th>CRM</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-doctor>
+    <tr>
+      <td>{{ doctor.id }}</td>
+      <td>{{ doctor.name }}</td>
+      <td>{{ doctor.cpf }}</td>
+      <td>{{ doctor.crm }}</td>
+      <td>{{ doctor.email }}</td>
+      <td>{{ doctor.phone }}</td>
+      <td>{{ doctor.address }}</td>
+      <td>{{ doctor.createdAt | date:'short' }}</td>
+      <td>{{ doctor.updatedAt | date:'short' }}</td>
+      <td>
+        <div class="actions">
+          <p-button variant="outlined" severity="warn" icon="pi pi-pencil"
+            (click)="showEditDialog(doctor.id)"></p-button>
+          <p-button variant="outlined" severity="danger" icon="pi pi-trash"
+            (click)="confirmDelete($event, doctor.id)"></p-button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-button icon="pi pi-plus" (click)="showAddDialog()"></p-button>
+<p-confirmpopup />
+<p-toast />
+
+
+<p-dialog header="Add Doctor" [modal]="true" [(visible)]="addVisible" [style]="{ width: '25rem' }">
+  <div class="flex items-center gap-4 mb-4">
+    <label for="name" class="font-semibold w-24">Name: </label>
+    <input pInputText id="name" class="flex-auto" autocomplete="off" [(ngModel)]="newDoctor().name" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="cpf" class="font-semibold w-24">CPF: </label>
+    <input pInputText id="cpf" class="flex-auto" autocomplete="off" [(ngModel)]="newDoctor().cpf" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="crm" class="font-semibold w-24">CRM: </label>
+    <input pInputText id="crm" class="flex-auto" autocomplete="off" [(ngModel)]="newDoctor().crm" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="email" class="font-semibold w-24">Email: </label>
+    <input pInputText id="email" class="flex-auto" autocomplete="off" [(ngModel)]="newDoctor().email" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="phone" class="font-semibold w-24">Phone: </label>
+    <input pInputText id="phone" class="flex-auto" autocomplete="off" [(ngModel)]="newDoctor().phone" />
+  </div>
+  <div class="flex items-center gap-4 mb-8">
+    <label for="email" class="font-semibold w-24">Address: </label>
+    <input pInputText id="email" class="flex-auto" autocomplete="off" [(ngModel)]="newDoctor().address" />
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="addVisible.set(false)" />
+    <p-button label="Save" (click)="add()" />
+  </div>
+</p-dialog>
+
+<p-dialog header="Edit Doctor" [modal]="true" [(visible)]="editVisible" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-8">ID: {{ currentEdit().id }}</span>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="username" class="font-semibold w-24">Name: </label>
+    <input pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="currentEdit().name" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="cpf" class="font-semibold w-24">CPF: </label>
+    <input pInputText id="cpf" class="flex-auto" autocomplete="off" [(ngModel)]="currentEdit().cpf" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="crm" class="font-semibold w-24">CRM: </label>
+    <input pInputText id="crm" class="flex-auto" autocomplete="off" [(ngModel)]="currentEdit().crm" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="email" class="font-semibold w-24">Email: </label>
+    <input pInputText id="email" class="flex-auto" autocomplete="off" [(ngModel)]="currentEdit().email" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="phone" class="font-semibold w-24">Phone: </label>
+    <input pInputText id="phone" class="flex-auto" autocomplete="off" [(ngModel)]="currentEdit().phone" />
+  </div>
+  <div class="flex items-center gap-4 mb-8">
+    <label for="email" class="font-semibold w-24">Address: </label>
+    <input pInputText id="email" class="flex-auto" autocomplete="off" [(ngModel)]="currentEdit().address" />
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="editVisible.set(false)" />
+    <p-button label="Save" (click)="edit()" />
+  </div>
+</p-dialog>

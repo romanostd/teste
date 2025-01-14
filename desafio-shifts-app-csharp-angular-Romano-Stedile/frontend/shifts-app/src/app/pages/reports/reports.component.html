@@ -1,0 +1,17 @@
+<p-card header="Shift Cost per hospital report">
+  <div class="flex items-center gap-4 mb-4">
+    <label for="start" class="font-semibold w-24">Start: </label>
+    <p-datepicker inputId="start" [(ngModel)]="shiftCostReport().start" [hourFormat]="'24'" />
+
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="end" class="font-semibold w-24">End: </label>
+    <p-datepicker inputId="end" [(ngModel)]="shiftCostReport().end" [hourFormat]="'24'" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="hospitals" class="font-semibold w-24">Hospitals: </label>
+    <p-multiselect [options]="hospitals()" [(ngModel)]="shiftCostReport().hospitalIds" optionLabel="name"
+      optionValue="id" placeholder="Select a hospital" class="w-full md:w-56" />
+  </div>
+  <p-button (click)="downloadShiftCostReport()">Download</p-button>
+</p-card>

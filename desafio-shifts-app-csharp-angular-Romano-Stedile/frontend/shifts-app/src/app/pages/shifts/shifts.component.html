@@ -1,0 +1,99 @@
+<p-table [value]="shifts()" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template #header>
+    <tr>
+      <th>Id</th>
+      <th>Date</th>
+      <th>Begin</th>
+      <th>End</th>
+      <th>Doctor</th>
+      <th>Hospital</th>
+      <th>Specialty</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-shift>
+    <tr>
+      <td>{{ shift.id }}</td>
+      <td>{{ shift.begin | date:'dd/MM/yyyy' }}</td>
+      <td>{{ shift.begin | date:'HH:mm' }}</td>
+      <td>{{ shift.end | date:'HH:mm' }}</td>
+      <td>{{ shift.doctor.name }}</td>
+      <td>{{ shift.hospital.name }}</td>
+      <td>{{ shift.specialty }}</td>
+      <td>
+        <div class="actions">
+          <p-button variant="outlined" severity="warn" icon="pi pi-pencil"
+            (click)="showEditDialog(shift.id)"></p-button>
+          <p-button variant="outlined" severity="danger" icon="pi pi-trash"
+            (click)="confirmDelete($event, shift.id)"></p-button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-button icon="pi pi-plus" (click)="showAddDialog()"></p-button>
+<p-confirmpopup />
+<p-toast />
+
+<p-dialog header="Add Shift" [modal]="true" [(visible)]="addVisible" [style]="{ width: '50vw', height: '80%' }">
+  <div class="flex items-center gap-4 mb-4">
+    <label for="begin" class="font-semibold w-24">Begin: </label>
+    <p-datepicker inputId="begin" [(ngModel)]="newShift().begin" [showTime]="true" [hourFormat]="'24'" />
+
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="end" class="font-semibold w-24">End: </label>
+    <p-datepicker inputId="end" [(ngModel)]="newShift().end" [showTime]="true" [hourFormat]="'24'" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="doctor" class="font-semibold w-24">Doctor: </label>
+    <p-select [options]="doctors()" [(ngModel)]="newShift().doctorId" optionLabel="name" optionValue="id"
+      placeholder="Select a Doctor" class="w-full md:w-56" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="hospital" class="font-semibold w-24">Hospital: </label>
+    <p-select [options]="hospitals()" [(ngModel)]="newShift().hospitalId" optionLabel="name" optionValue="id"
+      placeholder="Select a hospital" class="w-full md:w-56" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="specialty" class="font-semibold w-24">Specialty: </label>
+    <p-select [options]="specialties()" [(ngModel)]="newShift().specialty" placeholder="Select a specialty"
+      class="w-full md:w-56" />
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="addVisible.set(false)" />
+    <p-button label="Save" (click)="add()" />
+  </div>
+</p-dialog>
+
+<p-dialog header="Edit Shift" [modal]="true" [(visible)]="editVisible" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-8">ID: {{ currentEdit().id }}</span>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="begin" class="font-semibold w-24">Begin: </label>
+    <p-datepicker inputId="begin" [(ngModel)]="currentEdit().begin" [showTime]="true" [hourFormat]="'24'" />
+
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="end" class="font-semibold w-24">End: </label>
+    <p-datepicker inputId="end" [(ngModel)]="currentEdit().end" [showTime]="true" [hourFormat]="'24'" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="doctor" class="font-semibold w-24">Doctor: </label>
+    <p-select [options]="doctors()" [(ngModel)]="currentEdit().doctor" optionLabel="name" placeholder="Select a Doctor"
+      class="w-full md:w-56" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="hospital" class="font-semibold w-24">Hospital: </label>
+    <p-select [options]="hospitals()" [(ngModel)]="currentEdit().hospital" optionLabel="name"
+      placeholder="Select a hospital" class="w-full md:w-56" />
+  </div>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="specialty" class="font-semibold w-24">Specialty: </label>
+    <p-select [options]="specialties()" [(ngModel)]="currentEdit().specialty" placeholder="Select a specialty"
+      class="w-full md:w-56" />
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="editVisible.set(false)" />
+    <p-button label="Save" (click)="edit()" />
+  </div>
+</p-dialog>
